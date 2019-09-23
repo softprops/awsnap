@@ -39,10 +39,11 @@ awsnap() {
   if [ -e "${awsnap_dir}/.awsnap" ]; then
     target_profile=$(cat "${awsnap_dir}/.awsnap" | sed '/^$/d')
     if ! command -v aws &>/dev/null; then
+      echo "⚠️ This directory expected aws profile ${target_profile} but you have not yet installed the aws cli."
       return
     fi
     if ! aws configure get aws_access_key_id --profile "${target_profile}" &>/dev/null; then
-      echo "This directory expected aws profile ${target_profile} which you have not yet configured."
+      echo "⚠️ This directory expected aws profile ${target_profile} which you have not yet configured."
       return
     fi
     export AWS_PROFILE="${target_profile}"
